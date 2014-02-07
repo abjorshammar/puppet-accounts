@@ -5,7 +5,7 @@ define accounts::users (
   $home_path  = '/home',
   $sshkeytype = 'rsa',
   $sshkey     = 'UNSET',
-  $groups     = ''
+  $groups     = []
   ) {
 
   # Create the user
