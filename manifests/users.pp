@@ -1,9 +1,11 @@
 define accounts::users (
   $uid        = 'UNSET',
   $realname   = 'UNSET',
-  $password   = 'UNSET',
+  $password   = '*',
   $shell      = '/bin/bash',
   $home_path  = '/home',
+  $abshome    = 'UNSET',
+  $managehome = true,
   $sshkeytype = 'rsa',
   $sshkey     = 'UNSET',
   $groups     = []
@@ -13,6 +15,12 @@ define accounts::users (
     ensure_packages(['libshadow-ruby1.8'])
   }
 
+  if $abshome == 'UNSET' {
+    $actual_home = "${home_path}/${title}"
+  } else {
+    $actual_home = $abshome
+  }
+
   # Create the user
   user { $title:
     ensure            =>  'present',
@@ -20,9 +28,9 @@ define accounts::users (
     gid               =>  $title,
     password          =>  $password,
     shell             =>  $shell,
-    home              =>  "${home_path}/${title}",
+    home              =>  $actual_home,
     comment           =>  $realname,
-    managehome        =>  true,
+    managehome        =>  $managehome,
     groups            =>  $groups,
     require           =>  Group[$title],
   }
