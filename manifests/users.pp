@@ -1,6 +1,7 @@
 define accounts::users (
   $uid        = 'UNSET',
   $realname   = 'UNSET',
+  $password   = 'UNSET',
   $shell      = '/bin/bash',
   $home_path  = '/home',
   $sshkeytype = 'rsa',
@@ -13,6 +14,7 @@ define accounts::users (
     ensure            =>  'present',
     uid               =>  $uid,
     gid               =>  $title,
+    password          =>  $password,
     shell             =>  $shell,
     home              =>  "${home_path}/${title}",
     comment           =>  $realname,
