@@ -10,11 +10,7 @@ define accounts::users (
   ) {
 
   if $::osfamily == 'Debian' {
-    package { 'libshadow':
-      ensure  => 'installed',
-      name    => 'libshadow-ruby1.8',
-      before  => User[$title],
-    }
+    ensure_packages(['libshadow-ruby1.8'])
   }
 
   # Create the user
