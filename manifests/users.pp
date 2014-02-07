@@ -4,7 +4,8 @@ define accounts::users (
   $shell      = '/bin/bash',
   $home_path  = '/home',
   $sshkeytype = 'rsa',
-  $sshkey     = 'UNSET'
+  $sshkey     = 'UNSET',
+  $groups     = ''
   ) {
 
   # Create the user
@@ -16,6 +17,7 @@ define accounts::users (
     home              =>  "${home_path}/${title}",
     comment           =>  $realname,
     managehome        =>  true,
+    groups            =>  $groups,
     require           =>  Group[$title],
   }
 

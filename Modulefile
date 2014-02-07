@@ -1,5 +1,5 @@
 name    'abjorshammar-accounts'
-version '0.0.2'
+version '0.0.3'
 source 'git@github.com:abjorshammar/puppet-accounts.git'
 author 'abjorshammar'
 license 'Apache License, Version 2.0'
