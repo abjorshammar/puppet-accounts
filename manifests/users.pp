@@ -40,22 +40,24 @@ define accounts::users (
     gid               => $uid,
   }
 
-  # Ensure the home directory exists with the right permissions
-  file { "${home_path}/${title}":
-    ensure            =>  directory,
-    owner             =>  $title,
-    group             =>  $title,
-    mode              =>  '0750',
-    require           =>  [ User[$title], Group[$title] ],
-  }
+  if $managehome == true {
 
-  # Ensure the .ssh directory exists with the right permissions
-  file { "${home_path}/${title}/.ssh":
-    ensure            =>  directory,
-    owner             =>  $title,
-    group             =>  $title,
-    mode              =>  '0700',
-    require           =>  File["${home_path}/${title}"],
+    # Ensure the home directory exists with the right permissions
+    file { $actual_home:
+      ensure            =>  directory,
+      owner             =>  $title,
+      group             =>  $title,
+      mode              =>  '0750',
+      require           =>  [ User[$title], Group[$title] ],
+    }
+      # Ensure the .ssh directory exists with the right permissions
+      file { "${actual_home}/.ssh":
+        ensure            =>  directory,
+        owner             =>  $title,
+        group             =>  $title,
+        mode              =>  '0700',
+        require           =>  File[$actual_home],
+    }
   }
 
   # Add user's SSH key
